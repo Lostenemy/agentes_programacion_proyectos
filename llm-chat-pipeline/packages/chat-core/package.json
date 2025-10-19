@@ -1,0 +1,19 @@
+{
+  "name": "chat-core",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -w -p tsconfig.json",
+    "lint": "echo 'no lint'",
+    "test": "echo 'no tests'"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "uuid": "^9.0.1",
+    "winston": "^3.13.0",
+    "zod": "^3.22.4"
+  }
+}

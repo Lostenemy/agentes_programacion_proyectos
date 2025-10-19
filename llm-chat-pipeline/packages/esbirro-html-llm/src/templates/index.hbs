@@ -1,0 +1,19 @@
+<section>
+  <header>
+    <h1>{{title}}</h1>
+  </header>
+  <article>
+    {{#if pages.length}}
+      <ul>
+        {{#each pages}}
+          <li>
+            <a href="./{{slug}}.html">{{title}}</a>
+            <small>Actualizado {{updatedAt}}</small>
+          </li>
+        {{/each}}
+      </ul>
+    {{else}}
+      <p>No hay páginas publicadas todavía.</p>
+    {{/if}}
+  </article>
+</section>

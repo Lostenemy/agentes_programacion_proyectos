@@ -1,0 +1,22 @@
+{
+  "name": "git-worker",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx watch src/index.ts",
+    "lint": "echo 'no lint'",
+    "test": "echo 'no tests'"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "morgan": "^1.10.0",
+    "simple-git": "^3.22.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.1"
+  }
+}

@@ -1,0 +1,26 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - "dist/site/**"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      REMOTE_SITE_DIR: ${{ secrets.REMOTE_SITE_DIR }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: site
+          path: site
+      - name: Sync site
+        run: |
+          rsync -avz --delete site/ "$REMOTE_SITE_DIR/"
+      - name: Restart services
+        run: |
+          docker compose -f docker-compose.prod.yml up -d

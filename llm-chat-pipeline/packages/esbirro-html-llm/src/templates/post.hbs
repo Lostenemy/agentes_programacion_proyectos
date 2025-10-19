@@ -1,0 +1,25 @@
+<header>
+  <h1>{{title}}</h1>
+  {{#if metadata.subtitle}}
+    <p>{{metadata.subtitle}}</p>
+  {{/if}}
+  {{#if metadata.updatedAt}}
+    <p><small>Actualizado {{metadata.updatedAt}}</small></p>
+  {{/if}}
+</header>
+<nav>
+  {{#if toc.length}}
+    <h2>Contenido</h2>
+    <ol>
+      {{#each toc}}
+        <li class="toc-level-{{level}}"><a href="#{{id}}">{{text}}</a></li>
+      {{/each}}
+    </ol>
+  {{/if}}
+</nav>
+<article>
+  {{{html}}}
+</article>
+<footer>
+  <p>Generado por Esbirro HTML.</p>
+</footer>
