@@ -44,6 +44,10 @@ Consulta el archivo `.env.example` para conocer todas las variables soportadas. 
 
 ## Flujos principales
 
+## Despliegue
+
+Consulta la guía completa en [`DEPLOYMENT.md`](./DEPLOYMENT.md) para desplegar el monorepo en un servidor con Docker Compose.
+
 1. **Esbirro HTML** recibe entradas del usuario, las transforma en HTML accesible y escribe los artefactos en `dist/site`.
 2. **DevOps** genera planes de despliegue en JSON validados contra una allowlist de comandos. La ejecución requiere aprobación explícita.
 3. El **orchestrator** automatiza el ciclo render → commit → deploy cuando se crean trabajos desde `api-input`.
