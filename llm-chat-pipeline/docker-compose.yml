@@ -1,0 +1,86 @@
+version: "3.9"
+services:
+  api-input:
+    build: .
+    command: pnpm --filter api-input dev
+    working_dir: /app
+    env_file: .env.example
+    ports:
+      - "3000:3000"
+    depends_on:
+      - esbirro-html-llm
+      - devops-llm
+      - orchestrator
+    volumes:
+      - ./:/app
+      - site-data:/app/dist/site
+    environment:
+      - ORCHESTRATOR_URL=http://orchestrator:3600
+  esbirro-html-llm:
+    build: .
+    command: pnpm --filter esbirro-html-llm dev
+    working_dir: /app
+    env_file: .env.example
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./:/app
+      - site-data:/app/dist/site
+  devops-llm:
+    build: .
+    command: pnpm --filter devops-llm dev
+    working_dir: /app
+    env_file: .env.example
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./:/app
+      - site-data:/app/dist/site
+  orchestrator:
+    build: .
+    command: pnpm --filter orchestrator dev
+    working_dir: /app
+    env_file: .env.example
+    environment:
+      - ESBIRRO_URL=http://esbirro-html-llm:3100
+      - DEVOPS_URL=http://devops-llm:4000
+      - GIT_WORKER_URL=http://git-worker:3500
+    volumes:
+      - ./:/app
+    depends_on:
+      - git-worker
+  git-worker:
+    build: .
+    command: pnpm --filter git-worker dev
+    working_dir: /app
+    env_file: .env.example
+    environment:
+      - GIT_WORKER_PORT=3500
+    volumes:
+      - ./:/app
+      - site-data:/app/dist/site
+    ports:
+      - "3500:3500"
+  web-chat:
+    build: .
+    command: pnpm --filter web-chat dev
+    working_dir: /app
+    env_file: .env.example
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./:/app
+    environment:
+      - VITE_API_TOKEN=${API_TOKEN:-supersecreto}
+      - VITE_ESBIRRO_URL=http://esbirro-html-llm:3100/chat
+      - VITE_DEVOPS_URL=http://devops-llm:4000/ops/chat
+      - VITE_DEVOPS_EXECUTE_URL=http://devops-llm:4000/ops/execute
+  nginx:
+    build:
+      context: ./server
+    ports:
+      - "8080:80"
+    volumes:
+      - site-data:/srv/site:ro
+volumes:
+  site-data:
